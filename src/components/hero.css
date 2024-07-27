@@ -1,0 +1,16 @@
+body {
+    background-color: #121212;
+}
+
+.card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card-img-top {
+    height: 20rem;
+    object-fit: cover;
+}
