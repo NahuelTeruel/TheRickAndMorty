@@ -7,11 +7,18 @@ import './hero.css';
 function Hero() {
     const [personajes, setPersonajes] = useState([]);
     const [page, setPage] = useState(1);
+    const [error, setError] = useState(null);
+
 
     useEffect(() => {
         const obtenerPersonajes = async () => {
-            const response = await axios.get(`https://rickandmortyapi.com/api/character/?page=${page}`);
-            setPersonajes(response.data.results);
+            try {
+                const response = await axios.get(`https://rickandmortyapi.com/api/character/?page=${page}`);
+                setPersonajes(response.data.results);
+            } catch (err) {
+                setError('Error al cargar los personajes. Intenta más tarde.');
+                console.error(err);
+            }
         };
 
         obtenerPersonajes();
@@ -30,9 +37,10 @@ function Hero() {
     }
 
     return (
-        <section className="bg-dark text-white py-5">
+        <section className="text-white py-5 hero-section">
             <div className="container">
                 <h1 className="text-center fw-bold mb-4">Personajes - The Rick and Morty</h1>
+                {error && <div className="alert alert-danger">{error}</div>}
                 <div className="d-flex justify-content-between mb-3">
                     <button className="btn btn-primary" onClick={prevPage} disabled={page === 1}>Anterior</button>
                     <button className="btn btn-primary" onClick={nextPage} disabled={page === 42}>Siguiente</button>
